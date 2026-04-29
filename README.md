@@ -2,6 +2,9 @@
 
 A modern, responsive weather application built with React and Vite. Get real-time weather data and 5-day forecasts with a beautiful dark/light mode interface.
 
+## Live Demo
+🌐 https://weatherapp-aarchi.netlify.app/
+
 ## Features
 
 - 🌍 **Current Weather Display** - Real-time temperature, humidity, wind speed, and weather conditions
