@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import SearchBar from './components/searchBar';
+import SearchBar from './components/SearchBar';
 import axios from 'axios';
 import WeatherCard from './components/WeatherCard';
 import CurrentWeather from './components/CurrentWeather';
