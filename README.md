@@ -11,7 +11,7 @@ A modern, fully responsive weather application built with **React** and **Vite**
 - 📍 **Geolocation Support** - Automatically fetch weather for your current location
 - 🔍 **City Search** - Search weather by city name
 - 📅 **5-Day Forecast** - View upcoming weather predictions with clickable daily cards
-- ⏰ **12-Hour Detailed Breakdown** - View hourly weather updates for each day with:
+- ⏰ **Hourly Detailed Breakdown** - View hourly weather updates for each day with:
   - Temperature and "feels like" temperature
   - Humidity percentage
   - Wind speed
