@@ -7,9 +7,9 @@ const WeatherCard = ({ weather, isDarkMode, isCelsius, convertTemp, setIsCelsius
         ? 'bg-gray-800/80 border-gray-700'
         : 'bg-purple-400/80 border-purple-300'
     }`}>
-      <h3 className="text-lg font-bold mb-4">Weather Details</h3>
+      <h3 className="text-base sm:text-lg font-bold mb-4">Weather Details</h3>
       
-      <div className='grid grid-cols-4 gap-2 w-full'>
+      <div className='grid grid-cols-2 sm:grid-cols-4 gap-2 w-full'>
         <div className={`rounded-lg p-2 border text-center hover:scale-110 transition duration-200 aspect-square flex flex-col justify-center items-center cursor-pointer ${
           isDarkMode
             ? 'bg-gray-700/50 border-gray-600 hover:bg-gray-600/50'

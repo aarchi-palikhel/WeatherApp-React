@@ -120,20 +120,20 @@ function App() {
 
       <div className='relative z-10 w-full'>
         {/* Header Section */}
-        <div className={`${isDarkMode ? 'bg-gray-800/80' : 'bg-purple-400/80'} text-white rounded-lg p-8 mb-8 shadow-lg max-w-md mx-auto transition-all duration-300`}>
-          <h1 className='text-4xl font-bold text-white text-center mb-7'>Weather App</h1>
+        <div className={`${isDarkMode ? 'bg-gray-800/80' : 'bg-purple-400/80'} text-white rounded-lg p-6 sm:p-8 mb-6 sm:mb-8 shadow-lg max-w-md mx-auto transition-all duration-300`}>
+          <h1 className='text-3xl sm:text-4xl font-bold text-white text-center mb-6 sm:mb-7'>Weather App</h1>
           <SearchBar fetchWeather={fetchWeather} isDarkMode={isDarkMode} />
-          {geoLoading && <p className='text-center mt-4 text-sm font-semibold'>📍 Detecting your location...</p>}
-          {geoError && <p className='text-center mt-4 text-sm font-semibold text-yellow-300'>⚠️ {geoError}</p>}
-          {loading && <p className='text-center mt-4 text-lg font-semibold'>Loading...</p>}
-          {error && <p className='text-center mt-4 text-lg font-semibold text-red-300'>{error}</p>}
+          {geoLoading && <p className='text-center mt-4 text-xs sm:text-sm font-semibold'>📍 Detecting your location...</p>}
+          {geoError && <p className='text-center mt-4 text-xs sm:text-sm font-semibold text-yellow-300'>⚠️ {geoError}</p>}
+          {loading && <p className='text-center mt-4 text-base sm:text-lg font-semibold'>Loading...</p>}
+          {error && <p className='text-center mt-4 text-base sm:text-lg font-semibold text-red-300'>{error}</p>}
         </div>
 
         {/* Weather Data Section */}
         {weather && (
           <>
-            {/* Current Weather and Weather Card - Same Row */}
-            <div className='w-full max-w-7xl mx-auto mb-8 grid grid-cols-1 lg:grid-cols-2 gap-8'>
+            {/* Current Weather and Weather Card - Responsive Grid */}
+            <div className='w-full max-w-7xl mx-auto mb-6 sm:mb-8 grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 px-2 sm:px-0'>
               {/* Left Column - Current Weather */}
               <div>
                 <CurrentWeather weather={weather} isDarkMode={isDarkMode} isCelsius={isCelsius} convertTemp={convertTemp} setIsCelsius={setIsCelsius} />
@@ -147,7 +147,7 @@ function App() {
 
             {/* Forecast Card - Full Width Below */}
             {forecast && (
-              <div className='w-full max-w-7xl mx-auto mb-8'>
+              <div className='w-full max-w-7xl mx-auto mb-6 sm:mb-8 px-2 sm:px-0'>
                 <ForecastCard forecast={forecast} isDarkMode={isDarkMode} isCelsius={isCelsius} convertTemp={convertTemp} />
               </div>
             )}

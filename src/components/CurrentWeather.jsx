@@ -10,7 +10,7 @@ const CurrentWeather = ({ weather, isDarkMode, isCelsius, convertTemp, setIsCels
       {/* Unit Converter Button - Top Right */}
       <button 
         onClick={() => setIsCelsius(!isCelsius)}
-        className={`absolute top-4 right-4 px-3 py-1 rounded-lg font-bold text-xs transition-all whitespace-nowrap ${
+        className={`absolute top-3 sm:top-4 right-3 sm:right-4 px-2 sm:px-3 py-1 rounded-lg font-bold text-xs transition-all whitespace-nowrap ${
           isCelsius 
             ? 'bg-blue-500 text-white shadow-lg hover:bg-blue-600' 
             : 'bg-orange-500 text-white shadow-lg hover:bg-orange-600'
@@ -23,7 +23,7 @@ const CurrentWeather = ({ weather, isDarkMode, isCelsius, convertTemp, setIsCels
       <div className='flex justify-center items-center flex-col pt-2'>
         {/* City and Country */}
         <div className='text-center mb-3'>
-          <h2 className="text-2xl font-bold">{weather.name}</h2>
+          <h2 className="text-xl sm:text-2xl font-bold">{weather.name}</h2>
           <p className="text-xs opacity-90">{weather.sys.country}</p>
         </div>
 
@@ -32,10 +32,10 @@ const CurrentWeather = ({ weather, isDarkMode, isCelsius, convertTemp, setIsCels
           <img 
               src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`} 
               alt={weather.weather[0].description} 
-              className="w-20 h-20 drop-shadow-lg mb-1" 
+              className="w-16 sm:w-20 h-16 sm:h-20 drop-shadow-lg mb-1" 
           />
-          <p className="text-5xl font-bold mb-1">{convertTemp(weather.main.temp)}°</p>
-          <p className="text-sm capitalize text-opacity-90 tracking-wide">{weather.weather[0].description}</p>
+          <p className="text-4xl sm:text-5xl font-bold mb-1">{convertTemp(weather.main.temp)}°</p>
+          <p className="text-xs sm:text-sm capitalize text-opacity-90 tracking-wide">{weather.weather[0].description}</p>
         </div>
 
         {/* Quick Stats Grid */}

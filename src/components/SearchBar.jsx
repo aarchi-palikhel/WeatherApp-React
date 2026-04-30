@@ -12,7 +12,7 @@ const SearchBar = ({ fetchWeather, isDarkMode }) => {
     }
     
     return (
-        <form className='flex gap-2 w-full' onSubmit={handleSubmit}>
+        <form className='flex gap-2 w-full flex-col sm:flex-row' onSubmit={handleSubmit}>
             <input 
                 type="text" 
                 id="city" 
@@ -21,7 +21,7 @@ const SearchBar = ({ fetchWeather, isDarkMode }) => {
                 value={city} 
                 onChange={(e) => setCity(e.target.value)} 
                 autoComplete="off"
-                className={`flex-1 px-4 py-3 rounded-lg outline-none focus:ring-2 transition ${
+                className={`flex-1 px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base rounded-lg outline-none focus:ring-2 transition ${
                   isDarkMode
                     ? 'bg-gray-700 text-white placeholder-gray-400 focus:ring-yellow-400'
                     : 'bg-white/90 text-gray-800 placeholder-gray-500 focus:ring-blue-400'
@@ -29,7 +29,7 @@ const SearchBar = ({ fetchWeather, isDarkMode }) => {
             />
             <button 
                 type='submit' 
-                className={`text-white font-bold px-6 py-3 rounded-lg cursor-pointer transition shadow-lg hover:shadow-xl
+                className={`text-white font-bold px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base rounded-lg cursor-pointer transition shadow-lg hover:shadow-xl whitespace-nowrap
                     bg-blue-500 hover:bg-blue-600'
                 }`}
             >

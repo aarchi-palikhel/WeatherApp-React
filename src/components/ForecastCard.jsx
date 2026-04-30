@@ -29,9 +29,9 @@ const ForecastCard = ({ forecast, isDarkMode, isCelsius, convertTemp }) => {
         ? 'bg-gray-800/80 border-gray-700'
         : 'bg-purple-400/80 border-purple-300'
     }`}>
-      <h3 className="text-lg font-bold mb-4">5-Day Forecast</h3>
+      <h3 className="text-base sm:text-lg font-bold mb-4">5-Day Forecast</h3>
       
-      <div className='grid grid-cols-5 gap-2 flex-1'>
+      <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 flex-1'>
         {dailyForecast.map((day, index) => (
           <div 
             key={index}
@@ -45,7 +45,7 @@ const ForecastCard = ({ forecast, isDarkMode, isCelsius, convertTemp }) => {
             <img 
               src={`http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`} 
               alt={day.weather[0].description}
-              className="w-10 h-10 mx-auto mb-1"
+              className="w-8 sm:w-10 h-8 sm:h-10 mx-auto mb-1"
             />
             <p className="text-xs capitalize text-opacity-90 mb-1">{day.weather[0].description}</p>
             <p className="text-lg font-bold mb-2">
