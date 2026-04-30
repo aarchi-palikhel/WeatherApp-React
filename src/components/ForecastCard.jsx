@@ -1,67 +1,82 @@
-import React from 'react';
+import React, { useState } from 'react';
+import HourlyBreakdown from './HourlyBreakdown';
 
 const ForecastCard = ({ forecast, isDarkMode, isCelsius, convertTemp }) => {
-  // Group forecast data by day (5-day forecast shows one entry per day)
+  const [selectedDay, setSelectedDay] = useState(null);
+
   const getDailyForecast = () => {
     const dailyData = {};
     
-    forecast.list.forEach((item) => {
-      const date = new Date(item.dt * 1000).toLocaleDateString('en-US');
+    forecast.list.forEach(item => {
+      const date = new Date(item.dt * 1000).toLocaleDateString('en-US', { 
+        month: 'short', 
+        day: 'numeric' 
+      });
+      
       if (!dailyData[date]) {
-        dailyData[date] = item;
+        dailyData[date] = {
+          date,
+          dt: item.dt,
+          weather: item.weather[0],
+          temp: item.main.temp,
+          icon: item.weather[0].icon,
+          hourly: []
+        };
       }
+      
+      dailyData[date].hourly.push(item);
     });
     
-    return Object.values(dailyData).slice(0, 5);
+    return Object.values(dailyData);
   };
 
   const dailyForecast = getDailyForecast();
+  const selectedDayData = selectedDay ? dailyForecast.find(d => d.dt === selectedDay) : null;
 
-  const formatDate = (timestamp) => {
-    const date = new Date(timestamp * 1000);
-    const options = { weekday: 'short', month: 'short', day: 'numeric' };
-    return date.toLocaleDateString('en-US', options);
-  };
+  // If a day is selected, show hourly breakdown
+  if (selectedDayData) {
+    return (
+      <div>
+        <HourlyBreakdown 
+          dayData={selectedDayData} 
+          isDarkMode={isDarkMode} 
+          isCelsius={isCelsius}
+          convertTemp={convertTemp}
+          onBack={() => setSelectedDay(null)}
+        />
+      </div>
+    );
+  }
 
   return (
-    <div className={`text-white rounded-lg p-4 shadow-lg w-full border transition-all duration-300 h-full flex flex-col ${
+    <div className={`text-white rounded-lg p-3 shadow-lg w-full border transition-all duration-300 h-full flex flex-col ${
       isDarkMode
         ? 'bg-gray-800/80 border-gray-700'
         : 'bg-purple-400/80 border-purple-300'
     }`}>
-      <h3 className="text-base sm:text-lg font-bold mb-4">5-Day Forecast</h3>
+      <h3 className="text-lg sm:text-xl font-bold mb-3">5-Day Forecast</h3>
       
+      {/* Daily Forecast Grid */}
       <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 flex-1'>
-        {dailyForecast.map((day, index) => (
-          <div 
-            key={index}
-            className={`rounded-lg p-2 text-center hover:scale-105 transition flex flex-col justify-between h-full ${
+        {dailyForecast.map((day) => (
+          <button
+            key={day.dt}
+            onClick={() => setSelectedDay(day.dt)}
+            className={`rounded-lg p-1.5 text-center transition transform hover:scale-105 flex flex-col justify-between h-full cursor-pointer border-2 ${
               isDarkMode
-                ? 'bg-gray-700/50 border border-gray-600'
-                : 'bg-purple-500/50 border border-purple-200'
+                ? 'bg-gray-700/50 border-gray-600 hover:border-blue-400 hover:bg-gray-700'
+                : 'bg-purple-500/50 border-purple-200 hover:border-blue-300 hover:bg-purple-400'
             }`}
           >
-            <p className="font-semibold text-xs mb-2">{formatDate(day.dt)}</p>
+            <p className="font-semibold text-base sm:text-lg mb-1">{day.date}</p>
             <img 
-              src={`http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`} 
-              alt={day.weather[0].description}
-              className="w-8 sm:w-10 h-8 sm:h-10 mx-auto mb-1"
+              src={`https://openweathermap.org/img/wn/${day.icon}@2x.png`} 
+              alt={day.weather.description}
+              className="w-10 sm:w-12 h-10 sm:h-12 mx-auto mb-1"
             />
-            <p className="text-xs capitalize text-opacity-90 mb-1">{day.weather[0].description}</p>
-            <p className="text-lg font-bold mb-2">
-              {convertTemp(day.main.temp)}°
-            </p>
-            <div className='flex flex-col text-xs opacity-75 border-t border-opacity-30 pt-2'>
-              <div className='mb-1'>
-                <p className='text-opacity-75'>Humidity</p>
-                <p className='font-semibold'>{day.main.humidity}%</p>
-              </div>
-              <div>
-                <p className='text-opacity-75'>Wind</p>
-                <p className='font-semibold text-xs'>{day.wind.speed} m/s</p>
-              </div>
-            </div>
-          </div>
+            <p className="text-xl sm:text-2xl font-bold">{convertTemp(day.temp)}°</p>
+            <p className="text-sm sm:text-base capitalize opacity-75">{day.weather.description}</p>
+          </button>
         ))}
       </div>
     </div>

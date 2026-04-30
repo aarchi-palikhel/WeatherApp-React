@@ -4,9 +4,11 @@ import axios from 'axios';
 import WeatherCard from './components/WeatherCard';
 import CurrentWeather from './components/CurrentWeather';
 import ForecastCard from './components/ForecastCard';
+import HealthCard from './components/HealthCard';
+import ErrorBoundary from './components/ErrorBoundary';
 import { useGeolocation } from './hooks/useGeolocation';
 import { fetchWeather as fetchWeatherFromService, fetchForecast } from './services/weatherApi';
-import video from './assets/weather.mp4';
+import video from './assets/weather-optimized.webm';
 
 function App() {
   const [weather, setWeather] = useState(null);
@@ -145,12 +147,19 @@ function App() {
               </div>
             </div>
 
-            {/* Forecast Card - Full Width Below */}
+            {/* Forecast Card - Full Width */}
             {forecast && (
               <div className='w-full max-w-7xl mx-auto mb-6 sm:mb-8 px-2 sm:px-0'>
-                <ForecastCard forecast={forecast} isDarkMode={isDarkMode} isCelsius={isCelsius} convertTemp={convertTemp} />
+                <ErrorBoundary>
+                  <ForecastCard forecast={forecast} isDarkMode={isDarkMode} isCelsius={isCelsius} convertTemp={convertTemp} />
+                </ErrorBoundary>
               </div>
             )}
+
+            {/* Health Card - Full Width */}
+            <div className='w-full max-w-7xl mx-auto mb-6 sm:mb-8 px-2 sm:px-0'>
+              <HealthCard weather={weather} isDarkMode={isDarkMode} />
+            </div>
           </>
         )}
       </div>

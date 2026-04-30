@@ -22,6 +22,7 @@ A modern, responsive weather application built with React and Vite. Get real-tim
 - **Tailwind CSS** - Utility-first styling
 - **OpenWeather API** - Real-time weather data
 - **Geolocation API** - User location detection
+- **Netlify Functions** - Serverless backend for API calls
 
 ## Getting Started
 
@@ -43,9 +44,9 @@ cd WeatherApp-React
 npm install
 ```
 
-3. Create a `.env` file in the root directory and add your OpenWeather API key:
+3. Create a `.env.local` file in the root directory and add your OpenWeather API key:
 ```
-VITE_API_KEY=your_api_key_here
+VITE_OPENWEATHER_API_KEY=your_api_key_here
 ```
 
 Get your free API key at [OpenWeatherMap](https://openweathermap.org/api)
@@ -68,9 +69,16 @@ src/
 │   └── WeatherCard.jsx       # Weather card component
 ├── hooks/
 │   └── useGeolocation.js     # Custom geolocation hook
+├── services/
+│   └── weatherApi.js         # Weather API service
 ├── App.jsx                   # Main app component
 ├── index.css                 # Global styles
 └── main.jsx                  # Entry point
+
+netlify/
+└── functions/
+    ├── weather.js            # Weather API function
+    └── forecast.js           # Forecast API function
 ```
 
 ## Usage
@@ -87,10 +95,14 @@ src/
 - `npm run preview` - Preview production build locally
 - `npm run lint` - Run ESLint
 
+## Deployment
+
+This project is deployed on **Netlify**. 
 
 ## Credits
 
 - Weather data provided by [OpenWeatherMap](https://openweathermap.org/)
 - Built with [React](https://react.dev/) and [Vite](https://vitejs.dev/)
+- Styled with [Tailwind CSS](https://tailwindcss.com/)
 - Background video - https://pixabay.com/videos/rocky-rocks-beach-marine-waves-29830/
 - Core concept learned from - https://www.youtube.com/@WebDevBey
