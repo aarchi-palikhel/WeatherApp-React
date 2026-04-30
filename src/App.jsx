@@ -8,7 +8,7 @@ import HealthCard from './components/HealthCard';
 import ErrorBoundary from './components/ErrorBoundary';
 import { useGeolocation } from './hooks/useGeolocation';
 import { fetchWeather as fetchWeatherFromService, fetchForecast } from './services/weatherApi';
-import video from './assets/weather-optimized.webm';
+import video from './assets/weather.mp4';
 
 function App() {
   const [weather, setWeather] = useState(null);
