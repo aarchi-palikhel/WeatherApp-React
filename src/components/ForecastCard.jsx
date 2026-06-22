@@ -6,13 +6,11 @@ const ForecastCard = ({ forecast, isDarkMode, isCelsius, convertTemp }) => {
 
   const getDailyForecast = () => {
     const dailyData = {};
-    
     forecast.list.forEach(item => {
-      const date = new Date(item.dt * 1000).toLocaleDateString('en-US', { 
-        month: 'short', 
-        day: 'numeric' 
+      const date = new Date(item.dt * 1000).toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric'
       });
-      
       if (!dailyData[date]) {
         dailyData[date] = {
           date,
@@ -23,59 +21,55 @@ const ForecastCard = ({ forecast, isDarkMode, isCelsius, convertTemp }) => {
           hourly: []
         };
       }
-      
       dailyData[date].hourly.push(item);
     });
-    
     return Object.values(dailyData);
   };
 
   const dailyForecast = getDailyForecast();
   const selectedDayData = selectedDay ? dailyForecast.find(d => d.dt === selectedDay) : null;
 
-  // If a day is selected, show hourly breakdown
   if (selectedDayData) {
     return (
-      <div>
-        <HourlyBreakdown 
-          dayData={selectedDayData} 
-          isDarkMode={isDarkMode} 
-          isCelsius={isCelsius}
-          convertTemp={convertTemp}
-          onBack={() => setSelectedDay(null)}
-        />
-      </div>
+      <HourlyBreakdown
+        dayData={selectedDayData}
+        isDarkMode={isDarkMode}
+        isCelsius={isCelsius}
+        convertTemp={convertTemp}
+        onBack={() => setSelectedDay(null)}
+      />
     );
   }
 
+  const text = isDarkMode ? 'text-white' : 'text-gray-800';
+  const subText = isDarkMode ? 'text-white/70' : 'text-gray-500';
+  const dayCard = isDarkMode
+    ? 'bg-gray-700/50 border-gray-600/50 hover:border-pink-400 hover:bg-gray-700 hover:shadow-pink-400/20'
+    : 'bg-pink-50/60 border-pink-200/60 hover:border-pink-400 hover:bg-pink-100/70 hover:shadow-pink-300/30';
+
   return (
-    <div className={`text-white rounded-lg p-3 shadow-lg w-full border transition-all duration-300 h-full flex flex-col ${
+    <div className={`${text} rounded-3xl p-4 shadow-2xl w-full border transition-all duration-300 backdrop-blur-md ${
       isDarkMode
-        ? 'bg-gray-800/80 border-gray-700'
-        : 'bg-purple-400/80 border-purple-300'
+        ? 'bg-gray-800/70 border-gray-600/50'
+        : 'bg-white/60 border-white/60 shadow-pink-200/30'
     }`}>
-      <h3 className="text-lg sm:text-xl font-bold mb-3">5-Day Forecast</h3>
-      
-      {/* Daily Forecast Grid */}
-      <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 flex-1'>
+      <h3 className="text-lg sm:text-xl font-extrabold mb-4">5-Day Forecast</h3>
+
+      <div className='flex gap-3 overflow-x-auto pb-2 sm:pb-0 sm:grid sm:grid-cols-3 lg:grid-cols-5 sm:overflow-visible'>
         {dailyForecast.map((day) => (
           <button
             key={day.dt}
             onClick={() => setSelectedDay(day.dt)}
-            className={`rounded-lg p-1.5 text-center transition transform hover:scale-105 flex flex-col justify-between h-full cursor-pointer border-2 ${
-              isDarkMode
-                ? 'bg-gray-700/50 border-gray-600 hover:border-blue-400 hover:bg-gray-700'
-                : 'bg-purple-500/50 border-purple-200 hover:border-blue-300 hover:bg-purple-400'
-            }`}
+            className={`${text} rounded-2xl p-3 text-center transition transform hover:scale-105 flex flex-col justify-between items-center cursor-pointer border-2 shrink-0 w-32 sm:w-auto hover:shadow-lg ${dayCard}`}
           >
-            <p className="font-semibold text-base sm:text-lg mb-1">{day.date}</p>
-            <img 
-              src={`https://openweathermap.org/img/wn/${day.icon}@2x.png`} 
+            <p className="font-extrabold text-sm sm:text-base mb-1">{day.date}</p>
+            <img
+              src={`https://openweathermap.org/img/wn/${day.icon}@2x.png`}
               alt={day.weather.description}
-              className="w-10 sm:w-12 h-10 sm:h-12 mx-auto mb-1"
+              className="w-10 sm:w-12 h-10 sm:h-12 mx-auto mb-1 drop-shadow"
             />
-            <p className="text-xl sm:text-2xl font-bold">{convertTemp(day.temp)}°</p>
-            <p className="text-sm sm:text-base capitalize opacity-75">{day.weather.description}</p>
+            <p className="text-xl sm:text-2xl font-extrabold">{convertTemp(day.temp)}°</p>
+            <p className={`text-xs sm:text-sm capitalize font-semibold ${subText}`}>{day.weather.description}</p>
           </button>
         ))}
       </div>

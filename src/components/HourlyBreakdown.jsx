@@ -2,32 +2,33 @@ import React from 'react';
 import ErrorBoundary from './ErrorBoundary';
 
 const HourlyBreakdown = ({ dayData, isDarkMode, isCelsius, convertTemp, onBack }) => {
-  // Safety check
+  const text = isDarkMode ? 'text-white' : 'text-gray-800';
+  const subText = isDarkMode ? 'text-white/70' : 'text-gray-500';
+  const innerCard = isDarkMode
+    ? 'bg-gray-700/50 border-gray-600/50 hover:bg-gray-600'
+    : 'bg-pink-50/60 border-pink-200/60 hover:bg-pink-100/70';
+  const pillBg = isDarkMode ? 'bg-white/10' : 'bg-pink-100/70';
+
   if (!dayData || !dayData.hourly || dayData.hourly.length === 0) {
     return (
-      <div className={`text-white rounded-lg p-4 sm:p-6 shadow-lg w-full border ${
-        isDarkMode ? 'bg-gray-800/80 border-gray-700' : 'bg-purple-400/80 border-purple-300'
+      <div className={`${text} rounded-3xl p-4 sm:p-6 shadow-2xl w-full border backdrop-blur-md ${
+        isDarkMode ? 'bg-gray-800/70 border-gray-600/50' : 'bg-white/60 border-white/60'
       }`}>
         <button
           onClick={onBack}
-          className={`px-4 py-2 rounded font-semibold mb-4 ${
-            isDarkMode
-              ? 'bg-blue-600 hover:bg-blue-700'
-              : 'bg-blue-500 hover:bg-blue-600'
-          }`}
+          className='px-5 py-2 rounded-full font-bold mb-4 bg-linear-to-r from-pink-500 to-fuchsia-500 hover:from-pink-600 hover:to-fuchsia-600 text-white transition hover:scale-105 shadow'
         >
-          ← Back to Forecast
+          Back to Forecast
         </button>
-        <p className="text-center">No hourly data available</p>
+        <p className={`text-center ${subText}`}>No hourly data available</p>
       </div>
     );
   }
 
   const formatTime = (dt) => {
     try {
-      const date = new Date(dt * 1000);
-      return date.toLocaleTimeString('en-US', { 
-        hour: '2-digit', 
+      return new Date(dt * 1000).toLocaleTimeString('en-US', {
+        hour: '2-digit',
         minute: '2-digit',
         hour12: true
       });
@@ -38,25 +39,21 @@ const HourlyBreakdown = ({ dayData, isDarkMode, isCelsius, convertTemp, onBack }
 
   return (
     <ErrorBoundary>
-      <div className={`text-white rounded-lg p-4 sm:p-6 shadow-lg w-full border transition-all duration-300 ${
+      <div className={`${text} rounded-3xl p-4 sm:p-6 shadow-2xl w-full border transition-all duration-300 backdrop-blur-md ${
         isDarkMode
-          ? 'bg-gray-800/80 border-gray-700'
-          : 'bg-purple-400/80 border-purple-300'
+          ? 'bg-gray-800/70 border-gray-600/50'
+          : 'bg-white/60 border-white/60 shadow-pink-200/30'
       }`}>
-        {/* Header with Back Button */}
+        {/* Header */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
-          <h3 className="text-lg sm:text-xl font-bold text-center sm:text-left">
-            Hourly Weather - {dayData?.date || 'N/A'}
+          <h3 className="text-lg sm:text-xl font-extrabold text-center sm:text-left">
+            Hourly Weather — {dayData?.date || 'N/A'}
           </h3>
           <button
             onClick={onBack}
-            className={`px-4 sm:px-6 py-2 rounded font-semibold transition transform hover:scale-105 whitespace-nowrap ${
-              isDarkMode
-                ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                : 'bg-blue-500 hover:bg-blue-600 text-white'
-            }`}
+            className='px-5 sm:px-6 py-2 rounded-full font-bold transition transform hover:scale-105 whitespace-nowrap bg-linear-to-r from-pink-500 to-fuchsia-500 hover:from-pink-600 hover:to-fuchsia-600 text-white shadow hover:shadow-pink-400/40'
           >
-            ← Back
+            Back
           </button>
         </div>
 
@@ -64,13 +61,11 @@ const HourlyBreakdown = ({ dayData, isDarkMode, isCelsius, convertTemp, onBack }
         <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-3'>
           {dayData.hourly.map((hour, idx) => {
             try {
-              // Safe data extraction
               const temp = hour?.main?.temp ? convertTemp(hour.main.temp) : 'N/A';
               const humidity = hour?.main?.humidity ?? 'N/A';
               const windSpeed = hour?.wind?.speed ? hour.wind.speed.toFixed(1) : 'N/A';
               const feelsLike = hour?.main?.feels_like ? convertTemp(hour.main.feels_like) : 'N/A';
-              
-              // FIX: Handle clouds - can be object or number
+
               let cloudsValue = 'N/A';
               if (hour?.clouds !== undefined && hour?.clouds !== null) {
                 if (typeof hour.clouds === 'object' && hour.clouds.all !== undefined) {
@@ -79,7 +74,7 @@ const HourlyBreakdown = ({ dayData, isDarkMode, isCelsius, convertTemp, onBack }
                   cloudsValue = hour.clouds;
                 }
               }
-              
+
               const description = hour?.weather?.[0]?.description ?? 'No data';
               const icon = hour?.weather?.[0]?.icon ?? '01d';
               const time = formatTime(hour?.dt);
@@ -87,55 +82,32 @@ const HourlyBreakdown = ({ dayData, isDarkMode, isCelsius, convertTemp, onBack }
               return (
                 <div
                   key={`${hour.dt}-${idx}`}
-                  className={`rounded-lg p-2 sm:p-3 text-center border transition hover:shadow-lg ${
-                    isDarkMode
-                      ? 'bg-gray-700/50 border-gray-600 hover:bg-gray-600'
-                      : 'bg-white/20 border-purple-200 hover:bg-white/30'
-                  }`}
+                  className={`rounded-2xl p-2 sm:p-3 text-center border transition hover:shadow-lg hover:scale-105 ${innerCard}`}
                 >
-                  {/* Time */}
-                  <p className="font-bold text-sm sm:text-base mb-2">
-                    {time}
-                  </p>
+                  <p className="font-extrabold text-sm sm:text-base mb-2">{time}</p>
 
-                  {/* Weather Icon */}
-                  <img 
-                    src={`https://openweathermap.org/img/wn/${icon}@2x.png`} 
+                  <img
+                    src={`https://openweathermap.org/img/wn/${icon}@2x.png`}
                     alt={description}
-                    className="w-8 sm:w-12 h-8 sm:h-12 mx-auto mb-2"
-                    onError={(e) => {
-                      e.target.src = 'https://openweathermap.org/img/wn/01d@2x.png';
-                    }}
+                    className="w-8 sm:w-12 h-8 sm:h-12 mx-auto mb-1 drop-shadow animate-float"
+                    onError={(e) => { e.target.src = 'https://openweathermap.org/img/wn/01d@2x.png'; }}
                   />
 
-                  {/* Temperature */}
-                  <p className="text-lg sm:text-2xl font-bold mb-2">
-                    {temp}°
-                  </p>
+                  <p className="text-lg sm:text-2xl font-extrabold mb-1">{temp}°</p>
+                  <p className={`text-xs sm:text-sm capitalize mb-2 line-clamp-2 font-semibold ${subText}`}>{description}</p>
 
-                  {/* Description */}
-                  <p className="text-xs sm:text-sm capitalize opacity-85 mb-3 line-clamp-2">
-                    {description}
-                  </p>
-
-                  {/* Weather Details */}
-                  <div className='space-y-2 text-xs sm:text-sm'>
-                    <div className='flex items-center justify-center gap-2 bg-gray-600/30 rounded px-1.5 py-1'>
-                      <span className='font-semibold'>Humidity:</span>
-                      <span className='font-bold'>{humidity}%</span>
-                    </div>
-                    <div className='flex items-center justify-center gap-2 bg-gray-600/30 rounded px-1.5 py-1'>
-                      <span className='font-semibold'>Wind:</span>
-                      <span className='font-bold'>{windSpeed}m/s</span>
-                    </div>
-                    <div className='flex items-center justify-center gap-2 bg-gray-600/30 rounded px-1.5 py-1'>
-                      <span className='font-semibold'>Feels:</span>
-                      <span className='font-bold'>{feelsLike}°</span>
-                    </div>
-                    <div className='flex items-center justify-center gap-2 bg-gray-600/30 rounded px-1.5 py-1'>
-                      <span className='font-semibold'>Cloud:</span>
-                      <span className='font-bold'>{cloudsValue}%</span>
-                    </div>
+                  <div className='space-y-1.5 text-xs'>
+                    {[
+                      ['Humidity', `${humidity}%`],
+                      ['Wind', `${windSpeed}m/s`],
+                      ['Feels', `${feelsLike}°`],
+                      ['Cloud', `${cloudsValue}%`],
+                    ].map(([label, val]) => (
+                      <div key={label} className={`flex items-center justify-center gap-1 rounded-full px-2 py-1 ${pillBg}`}>
+                        <span className={`font-semibold ${subText}`}>{label}</span>
+                        <span className='font-bold'>{val}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
               );
@@ -144,21 +116,16 @@ const HourlyBreakdown = ({ dayData, isDarkMode, isCelsius, convertTemp, onBack }
               return (
                 <div
                   key={`${hour?.dt}-${idx}`}
-                  className={`rounded-lg p-2 sm:p-3 text-center border ${
-                    isDarkMode
-                      ? 'bg-gray-700/50 border-gray-600'
-                      : 'bg-white/20 border-purple-200'
-                  }`}
+                  className={`rounded-2xl p-2 sm:p-3 text-center border ${innerCard}`}
                 >
-                  <p className="text-xs text-red-300">Error loading data</p>
+                  <p className="text-xs text-red-400">Error loading data</p>
                 </div>
               );
             }
           })}
         </div>
 
-        {/* Info Text */}
-        <p className="text-sm opacity-75 mt-4 sm:mt-6 text-center">
+        <p className={`text-sm mt-5 text-center font-semibold ${subText}`}>
           Showing {dayData.hourly.length} hourly updates for {dayData.date}
         </p>
       </div>

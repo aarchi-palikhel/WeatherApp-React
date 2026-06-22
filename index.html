@@ -5,6 +5,20 @@
     <link rel="icon" type="image/svg+xml" href="/weather.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather App</title>
+    <link href="https://fonts.cdnfonts.com/css/butler" rel="stylesheet" />
+    <style>
+      * { font-family: 'Butler', Georgia, serif; }
+      @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-8px); }
+      }
+      .animate-float { animation: float 3s ease-in-out infinite; }
+      @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+      }
+      .animate-blink { animation: blink 0.8s step-start infinite; }
+    </style>
   </head>
   <body>
     <div id="root"></div>
