@@ -11,6 +11,7 @@ import { useFavorites } from './hooks/useFavorites';
 import { useSearchHistory } from './hooks/useSearchHistory';
 import { useTypewriter } from './hooks/useTypewriter';
 import { fetchWeather as fetchWeatherFromService, fetchForecast } from './services/weatherApi';
+import { getWeatherTint } from './utils/weatherUtils';
 import video from './assets/weather.mp4';
 
 function App() {
@@ -82,6 +83,12 @@ function App() {
     isFavorite(currentCity) ? removeFavorite(currentCity) : addFavorite(currentCity);
   };
 
+  // Dynamic overlay tint based on weather condition
+  const conditionCode = weather?.weather?.[0]?.id;
+  const overlayClass = conditionCode
+    ? getWeatherTint(conditionCode, isDarkMode)
+    : isDarkMode ? 'bg-black/50' : 'bg-black/10';
+
   return (
     <div className={`min-h-screen flex flex-col items-center justify-center relative overflow-hidden py-12 px-4 transition-all duration-300 ${
       isDarkMode ? 'bg-gray-900' : 'bg-linear-to-br from-pink-300 via-purple-300 to-fuchsia-400'
@@ -91,8 +98,8 @@ function App() {
         <source src={video} type="video/mp4" />
       </video>
 
-      {/* Overlay */}
-      <div className={`absolute top-0 left-0 w-full h-full ${isDarkMode ? 'bg-black/50' : 'bg-black/10'}`} />
+      {/* Overlay — weather-condition tinted */}
+      <div className={`absolute top-0 left-0 w-full h-full transition-all duration-700 ${overlayClass}`} />
 
       {/* Dark Mode Toggle */}
       <button
