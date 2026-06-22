@@ -1,45 +1,52 @@
-# Weather App - React
+# Weather App — React 🌤️
 
-A modern, fully responsive weather application built with **React** and **Vite**. Get real-time weather data, 5-day forecasts with hourly breakdowns, UV index, and air quality information. Features dark/light mode toggle, temperature unit conversion (°C/°F), and geolocation support.
+A responsive weather application built with React and Vite. Get real-time weather, 5-day forecasts with hourly breakdowns, UV index, air quality data, saved cities, and search history — all wrapped in a glassmorphism UI with dark and light mode support.
 
 ## Live Demo
-🌐 https://weatherapp-aarchi.netlify.app/
+
+🔗 https://weatherapp-aarchi.netlify.app/
+
+---
 
 ## Features
 
-- 🌍 **Current Weather Display** - Real-time temperature, humidity, wind speed, and weather conditions
-- 📍 **Geolocation Support** - Automatically fetch weather for your current location
-- 🔍 **City Search** - Search weather by city name
-- 📅 **5-Day Forecast** - View upcoming weather predictions with clickable daily cards
-- ⏰ **Hourly Detailed Breakdown** - View hourly weather updates for each day with:
-  - Temperature and "feels like" temperature
-  - Humidity percentage
-  - Wind speed
-  - Cloud coverage
-- ☀️ **UV Index** - Real-time UV index levels with sun protection recommendations
-- 💨 **Air Quality Index (AQI)** - Monitor air quality with pollutant breakdown (PM2.5, PM10, O₃, NO₂)
-- 🌓 **Dark/Light Mode** - Toggle between dark and light themes for comfortable viewing
-- 🌡️ **Temperature Units** - Switch between Celsius and Fahrenheit
-- 📱 **Responsive Design** - Optimized for desktop, tablet, and mobile devices
-- ⚡ **Optimized Performance** - Compressed background video for fast loading
+- **Current Weather** — Real-time temperature, humidity, wind speed, and conditions
+- **Geolocation** — Auto-fetches weather for your current location on load
+- **City Search** — Search any city worldwide
+- **5-Day Forecast** — Clickable daily cards that expand into hourly breakdowns
+- **Hourly Breakdown** — Temperature, feels like, humidity, wind, and cloud coverage per hour
+- **UV Index** — Live UV levels with sun protection recommendations
+- **Air Quality (AQI)** — Pollutant breakdown including PM2.5, PM10, O3, and NO2
+- **Saved Cities ⭐** — Bookmark favorite cities with one click, persisted via localStorage
+- **Search History** — Tracks recently searched cities, clearable anytime
+- **Dark / Light Mode** — Toggle with the sun/moon icon
+- **Temperature Units** — Switch between Celsius and Fahrenheit
+- **Typewriter Animation** — Title and subtitle animate in on page load
+- **Responsive Design** — Works on mobile, tablet, and desktop
+
+---
 
 ## Tech Stack
 
-- **React 18** - UI library
-- **Vite** - Fast build tool and dev server
-- **Tailwind CSS 4** - Utility-first styling
-- **OpenWeather API** - Real-time weather, forecast, UV index, and air quality data
-- **Geolocation API** - User location detection
-- **Netlify Functions** - Serverless backend for API calls
-- **Error Boundaries** - React error handling for stability
-- **Axios** - HTTP client for API requests
+| Layer | Technology |
+|---|---|
+| UI | React 18 |
+| Build | Vite |
+| Styling | Tailwind CSS 4 |
+| Font | Butler (via CDN Fonts) |
+| HTTP | Axios |
+| Weather Data | OpenWeatherMap API |
+| Serverless | Netlify Functions |
+| Hosting | Netlify |
 
-## Getting Started
+---
+
+## Getting Started 🚀
 
 ### Prerequisites
 
-- Node.js (v14 or higher)
-- npm
+- Node.js v14 or higher
+- Netlify CLI (`npm install -g netlify-cli`)
 
 ### Installation
 
@@ -54,109 +61,95 @@ cd WeatherApp-React
 npm install
 ```
 
-3. Create a `.env.local` file in the root directory and add your OpenWeather API key:
+3. Create a `.env` file in the root directory:
 ```
-VITE_OPENWEATHER_API_KEY=your_api_key_here
+OPENWEATHER_API_KEY=your_api_key_here
 ```
 
-Get your free API key at [OpenWeatherMap](https://openweathermap.org/api)
+Get a free API key at [openweathermap.org](https://openweathermap.org/api).
 
 4. Start the development server:
 ```bash
-npm run dev
+netlify dev
 ```
 
-The app will open at `http://localhost:5173`
+> Use `netlify dev` instead of `npm run dev`. It starts both the Vite dev server and the Netlify Functions server together, which is required for the weather API calls to work locally.
+
+The app runs at `http://localhost:8888`.
+
+---
 
 ## Project Structure
 
 ```
 src/
 ├── components/
-│   ├── App.jsx                 # Main app component
-│   ├── CurrentWeather.jsx      # Current weather display with unit conversion
-│   ├── ForecastCard.jsx        # 5-day forecast with navigation to hourly breakdown
-│   ├── HourlyBreakdown.jsx     # 12-hour detailed weather breakdown
-│   ├── HealthCard.jsx          # UV index and air quality information
+│   ├── CurrentWeather.jsx      # Temperature, conditions, quick stats
+│   ├── WeatherCard.jsx         # Extended weather details grid
+│   ├── ForecastCard.jsx        # 5-day forecast with day selection
+│   ├── HourlyBreakdown.jsx     # Per-hour weather detail view
+│   ├── HealthCard.jsx          # UV index and AQI
 │   ├── SearchBar.jsx           # City search input
-│   ├── WeatherCard.jsx         # Additional weather details
-│   └── ErrorBoundary.jsx       # React error boundary component
+│   ├── CityChips.jsx           # Saved cities and search history chips
+│   └── ErrorBoundary.jsx       # React error boundary
 ├── hooks/
-│   └── useGeolocation.js       # Custom geolocation hook
+│   ├── useGeolocation.js       # Browser geolocation
+│   ├── useFavorites.js         # Saved cities via localStorage
+│   ├── useSearchHistory.js     # Recent searches via localStorage
+│   └── useTypewriter.js        # Sequential typewriter animation
 ├── services/
-│   └── weatherApi.js           # Weather API service
+│   └── weatherApi.js           # API call helpers
 ├── assets/
-│   └── weather-optimized.mp4   # Optimized background video
+│   └── weather.mp4             # Background video
 ├── index.css                   # Global styles
 └── main.jsx                    # Entry point
 
 netlify/
 └── functions/
-    ├── weather.js              # Weather + UV + AQI API function
-    └── forecast.js             # 5-day forecast API function
+    ├── weather.js              # Current weather + UV + AQI
+    └── forecast.js             # 5-day forecast
 ```
+
+---
 
 ## Usage
 
-1. **Auto-detect location** - Grant permission to use your device location for immediate weather data
-2. **Search by city** - Use the search bar to find weather for any city worldwide
-3. **View hourly forecast** - Click on any day in the 5-day forecast to see 12-hour detailed breakdown
-4. **Toggle theme** - Click the sun/moon icon to switch between dark/light modes
-5. **Convert temperature** - Click the °C/°F button to toggle temperature units
-6. **Check health data** - View UV index levels and air quality information in the Health & Environment card
+| Action | How |
+|---|---|
+| Auto-detect location | Allow location permission on load |
+| Search a city | Type in the search bar and press Search |
+| Save a city | Click the star button after loading weather |
+| Quick-load a saved city | Click its chip under the search bar |
+| View hourly forecast | Click any day in the 5-day forecast |
+| Toggle dark / light mode | Click the sun or moon icon (top right) |
+| Switch temperature units | Click the °C / °F button on the weather card |
+| Clear search history | Click "Clear" next to Recent Searches |
 
+---
 
 ## Deployment
 
-This project is deployed on **Netlify** with automatic deployments from the main branch.
-
-## Performance Optimizations
-
-- ✅ Compressed background video (~2-3MB) for fast loading
-- ✅ Responsive grid layouts for all screen sizes
-- ✅ Error boundaries for graceful error handling
-- ✅ Lazy loading for hourly forecast data
-- ✅ Optimized API calls with fallback values
-
-## API Reference
-
-### OpenWeatherMap Endpoints Used
-
-- **Current Weather** - `/data/2.5/weather`
-- **5-Day Forecast** - `/data/2.5/forecast`
-- **UV Index** - `/data/2.5/uvi`
-- **Air Quality** - `/data/2.5/air_pollution`
-- **Geocoding** - `/geo/1.0/direct`
-
-## Browser Support
-
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
-
-## Future Enhancements
-
-- [ ] Weather alerts and notifications
-- [ ] Saved favorite locations
-- [ ] Historical weather data
-- [ ] Weather comparison between cities
-- [ ] Sunrise/sunset times
-- [ ] Precipitation probability
-
-
-## Credits
-
-- **Weather Data** - [OpenWeatherMap](https://openweathermap.org/)
-- **Frontend Framework** - [React](https://react.dev/)
-- **Build Tool** - [Vite](https://vitejs.dev/)
-- **Styling** - [Tailwind CSS](https://tailwindcss.com/)
-- **Background Video** - [Pixabay](https://pixabay.com/videos/rocky-rocks-beach-marine-waves-29830/)
-- **Hosting** - [Netlify](https://netlify.com/)
-- **Core Concept** - Inspired by [WebDevBey](https://www.youtube.com/@WebDevBey)
-
-## Contact & Support
-
-For issues, suggestions, or contributions, please open an issue on [GitHub](https://github.com/aarchi-palikhel/WeatherApp-React/issues).
+Deployed on Netlify with automatic deployments from the main branch. Netlify Functions handle all OpenWeatherMap API calls server-side, keeping the API key out of the client bundle.
 
 ---
+
+## API Endpoints Used
+
+- `GET /data/2.5/weather` — Current weather
+- `GET /data/2.5/forecast` — 5-day / 3-hour forecast
+- `GET /data/2.5/uvi` — UV index
+- `GET /data/2.5/air_pollution` — Air quality
+- `GET /geo/1.0/direct` — City geocoding
+
+---
+
+## Credits 🙏
+
+- Weather data — [OpenWeatherMap](https://openweathermap.org/)
+- Background video — [Pixabay](https://pixabay.com/videos/rocky-rocks-beach-marine-waves-29830/)
+- Core concept — [WebDevBey](https://www.youtube.com/@WebDevBey)
+- Hosting — [Netlify](https://netlify.com/)
+
+---
+
+For issues or suggestions, open an issue on [GitHub](https://github.com/aarchi-palikhel/WeatherApp-React/issues).
