@@ -19,6 +19,11 @@ A responsive weather application built with React and Vite. Get real-time weathe
 - **Air Quality (AQI)** — Pollutant breakdown including PM2.5, PM10, O3, and NO2
 - **Saved Cities ⭐** — Bookmark favorite cities with one click, persisted via localStorage
 - **Search History** — Tracks recently searched cities, clearable anytime
+- **Local Time Display** — Shows the current local time of the searched city based on its timezone
+- **Sunrise / Sunset Countdown** — Live countdown to the next sunrise or sunset, ticking every 30 seconds
+- **Feels Like Tooltip** — Hover the Feels Like tile for an explanation of why it differs from actual temperature
+- **Weather-based Background Tint** — Overlay color shifts based on current conditions (clear, rain, storm, snow, fog)
+- **Copy to Clipboard** — Copy a weather summary for the current city with one click
 - **Dark / Light Mode** — Toggle with the sun/moon icon
 - **Temperature Units** — Switch between Celsius and Fahrenheit
 - **Typewriter Animation** — Title and subtitle animate in on page load
@@ -96,7 +101,10 @@ src/
 │   ├── useGeolocation.js       # Browser geolocation
 │   ├── useFavorites.js         # Saved cities via localStorage
 │   ├── useSearchHistory.js     # Recent searches via localStorage
-│   └── useTypewriter.js        # Sequential typewriter animation
+│   ├── useTypewriter.js        # Sequential typewriter animation
+│   └── useCountdown.js         # Live countdown to a unix timestamp
+├── utils/
+│   └── weatherUtils.js         # Feels like reason, weather tint, local time helpers
 ├── services/
 │   └── weatherApi.js           # API call helpers
 ├── assets/
@@ -124,6 +132,9 @@ netlify/
 | Toggle dark / light mode | Click the sun or moon icon (top right) |
 | Switch temperature units | Click the °C / °F button on the weather card |
 | Clear search history | Click "Clear" next to Recent Searches |
+| Copy weather summary | Click the clipboard icon on the current weather card |
+| See feels like reason | Hover the Feels Like tile for an explanation |
+| Check sunrise/sunset | Countdown shown live on each tile in Weather Details |
 
 ---
 
